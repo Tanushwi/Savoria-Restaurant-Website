@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#0a0a0f" />
+<title>SAVORIA — Fine Dining & Grill | Order Online</title>
+<meta name="description" content="SAVORIA — Award-winning fine dining. Wood-fired pizzas, authentic Indian curries, desserts & more. Order online with free delivery." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body class="locked">
+
+<div id="authScreen">
+  <div class="auth-bg">
+    <div class="blob b1" style="top:-10%;left:20%"></div>
+    <div class="blob b2" style="bottom:-10%;right:20%"></div>
+  </div>
+  <div class="auth-card">
+    <div class="auth-logo"><span>S</span>SAVORIA</div>
+    <p class="auth-sub">Sign in to satisfy your cravings</p>
+    
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Login</div>
+      <div class="auth-tab" id="tabSignup" onclick="switchAuthTab('signup')">Sign Up</div>
+    </div>
+
+    <form class="auth-form" id="loginForm" onsubmit="handleAuth(event, 'login')">
+      <div class="field">
+        <label>Email Address</label>
+        <input type="email" id="loginEmail" required placeholder="you@email.com">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="loginPassword" required placeholder="••••••••">
+      </div>
+      <button type="submit" class="auth-btn">Login to Order</button>
+    </form>
+
+    <form class="auth-form" id="signupForm" style="display:none" onsubmit="handleAuth(event, 'signup')">
+      <div class="field">
+        <label>Full Name</label>
+        <input type="text" id="signupName" required placeholder="Your Name">
+      </div>
+      <div class="field">
+        <label>Email Address</label>
+        <input type="email" id="signupEmail" required placeholder="you@email.com">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="signupPassword" required placeholder="Create a password">
+      </div>
+      <button type="submit" class="auth-btn">Create Account</button>
+    </form>
+
+    <div class="auth-switch" id="authSwitchTxt">
+      Don't have an account? <a onclick="switchAuthTab('signup')">Sign up</a>
+    </div>
+  </div>
+</div>
+
+<div id="preloader">
+  <div class="loader-plate">🍽️</div>
+  <div class="loader-text">SAVORIA</div>
+  <div class="loader-bar"><span></span></div>
+</div>
+
+<div id="progress"></div>
+
+<header class="nav" id="nav">
+  <a href="#home" class="logo"><span class="logo-mark">S</span>SAVORIA</a>
+  <nav class="nav-links">
+    <a href="#home">Home</a>
+    <a href="#menu">Menu</a>
+    <a href="#about">About</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#reserve">Reserve</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="nav-actions">
+    
+    <div class="user-profile" id="userProfile" style="display:none" onclick="logout()" title="Click to Logout">
+      <div class="user-avatar" id="userAvatar">U</div>
+      <span id="userNameTxt">User</span>
+    </div>
+
+    <button class="icon-btn" id="wishBtn" aria-label="Wishlist">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+      <span class="badge" id="wishBadge">0</span>
+    </button>
+    <button class="icon-btn" id="cartBtn" aria-label="Cart">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+      <span class="badge" id="cartBadge">0</span>
+    </button>
+    <a href="#menu" class="btn btn-gold nav-cta">Order Now</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home">Home</a>
+  <a href="#menu">Menu</a>
+  <a href="#about">About</a>
+  <a href="#reviews">Reviews</a>
+  <a href="#reserve">Reserve</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<section class="hero" id="home">
+  <div class="hero-bg"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+  <div class="grid-lines"></div>
+  <div class="hero-content">
+    <div class="eyebrow"><span class="dot"></span> Now delivering in 30 minutes</div>
+    <h1>
+      <span class="line"><span>Where Every Bite</span></span>
+      <span class="line"><span>Tells a</span></span>
+      <span class="line"><span class="gold">Delicious Story.</span></span>
+    </h1>
+    <p class="lead">Wood-fired pizzas, slow-cooked curries &amp; handcrafted desserts — made with
+      farm-fresh ingredients by our award-winning chefs. Order online or reserve your table tonight.</p>
+    <div class="hero-btns">
+      <a href="#menu" class="btn btn-gold">Explore Menu →</a>
+      <a href="#reserve" class="btn btn-ghost">Book a Table</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><h4 data-count="24">0</h4><span>Years of Legacy</span></div>
+      <div class="stat"><h4 data-count="180">0</h4><span>Signature Dishes</span></div>
+      <div class="stat"><h4 data-count="98">0</h4><span>% Happy Guests</span></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="glow-ring"></div>
+    <div class="orbit"></div>
+    <div class="orbit two"></div>
+    <div class="plate">
+      <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=75"
+           alt="Signature wood fired pizza" onerror="imgFallback(this,'🍕')" />
+    </div>
+    <div class="float-card fc1"><span class="fc-ico">⭐</span><div><b>4.9 / 5.0</b><small>8,400+ reviews</small></div></div>
+    <div class="float-card fc2"><span class="fc-ico">🚚</span><div><b>Free Delivery</b><small>On orders above ₹499</small></div></div>
+    <div class="float-card fc3"><span class="fc-ico">🔥</span><div><b>Chef's Special</b><small>Truffle Pasta</small></div></div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Wood Fired <i>✦</i></span><span>Farm Fresh <i>✦</i></span><span>Handcrafted Daily <i>✦</i></span>
+    <span>Award Winning <i>✦</i></span><span>Free Delivery <i>✦</i></span><span>100% Halal <i>✦</i></span>
+    <span>Wood Fired <i>✦</i></span><span>Farm Fresh <i>✦</i></span><span>Handcrafted Daily <i>✦</i></span>
+    <span>Award Winning <i>✦</i></span><span>Free Delivery <i>✦</i></span><span>100% Halal <i>✦</i></span>
+  </div>
+</div>
+
+<section class="sec-pad" id="menu">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="eyebrow"><span class="dot"></span> Our Signature Menu</div>
+      <h2>Crafted with <span class="gold">Love</span> &amp; Fire</h2>
+      <p>Every dish is prepared fresh to order using ingredients sourced from local farms every morning.</p>
+    </div>
+    <div class="filters reveal" id="filters"></div>
+    <div class="menu-grid" id="menuGrid"></div>
+  </div>
+</section>
+
+<section class="sec-pad" id="about" style="background:linear-gradient(180deg,transparent,rgba(233,185,73,.04),transparent)">
+  <div class="container about">
+    <div class="about-img-wrap reveal left">
+      <div class="about-img">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=75"
+             alt="Restaurant interior" onerror="imgFallback(this,'🍽️')" />
+      </div>
+      <div class="about-badge"><b>24+</b><span>Years of Taste</span></div>
+    </div>
+    <div class="reveal right">
+      <div class="eyebrow"><span class="dot"></span> Our Story</div>
+      <h2>A Legacy of Flavour, Served Since <span class="gold">1998</span></h2>
+      <p>What began as a small family kitchen in the heart of the city has grown into one of the most
+        loved fine-dining destinations. Our chefs blend traditional recipes with modern techniques —
+        every plate tells a story of passion.</p>
+      <p>We source our produce from local farms, our spices are ground in-house, and our bread is
+        baked fresh every single morning. No shortcuts. Ever.</p>
+      <div class="feature-list">
+        <div class="feature"><div class="fi">🌿</div><div><b>Farm Fresh</b><small>Daily sourced ingredients</small></div></div>
+        <div class="feature"><div class="fi">👨‍🍳</div><div><b>Master Chefs</b><small>Michelin-trained team</small></div></div>
+        <div class="feature"><div class="fi">⚡</div><div><b>30 Min Delivery</b><small>Hot &amp; on time, always</small></div></div>
+        <div class="feature"><div class="fi">🔒</div><div><b>Secure Payments</b><small>100% safe &amp; encrypted</small></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-pad" id="reviews">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="eyebrow"><span class="dot"></span> Guest Love</div>
+      <h2>What Our <span class="gold">Guests</span> Say</h2>
+      <p>Over 8,400 five-star reviews and counting. Here's what people are saying.</p>
+    </div>
+  </div>
+  <div class="reviews-wrap">
+    <div class="reviews-track" id="reviewsTrack"></div>
+  </div>
+</section>
+
+<section class="sec-pad" id="reserve">
+  <div class="container">
+    <div class="reserve-wrap reveal zoom">
+      <div class="reserve-left">
+        <h2>Reserve Your <span class="gold">Table</span></h2>
+        <p>Skip the queue. Book your table in under 30 seconds and get a complimentary welcome drink on us.</p>
+        <div class="reserve-info">
+          <div><span>🕐</span> Open Daily · 11:00 AM – 11:30 PM</div>
+          <div><span>📍</span> 42 Connaught Circus, New Delhi</div>
+          <div><span>📞</span> +91 98765 43210</div>
+          <div><span>✉️</span> hello@savovia.in</div>
+        </div>
+      </div>
+      <div class="reserve-right">
+        <form id="reserveForm" class="form-grid">
+          <div class="field"><label>Full Name</label><input type="text" required placeholder="Your name" /></div>
+          <div class="field"><label>Phone</label><input type="tel" required placeholder="+91 00000 00000" /></div>
+          <div class="field"><label>Date</label><input type="date" required /></div>
+          <div class="field"><label>Time</label><input type="time" required /></div>
+          <div class="field"><label>Guests</label>
+            <select required>
+              <option value="">Select</option>
+              <option>1 Person</option><option>2 People</option><option>3 People</option>
+              <option>4 People</option><option>5 People</option><option>6+ People</option>
+            </select>
+          </div>
+          <div class="field"><label>Seating</label>
+            <select required>
+              <option value="">Select</option>
+              <option>Indoor</option><option>Rooftop</option><option>Private Cabin</option>
+            </select>
+          </div>
+          <div class="field full"><label>Special Request</label><textarea placeholder="Birthday, anniversary, allergies..."></textarea></div>
+          <button type="submit" class="btn btn-gold full">Confirm Reservation</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#home" class="logo"><span class="logo-mark">S</span>SAVORIA</a>
+        <p>Fine dining &amp; grill since 1998. Serving handcrafted food with love, fire and a whole lot of flavour.</p>
+        <div class="socials">
+          <a class="social" href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+          <a class="social" href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a class="social" href="#" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+          <a class="social" href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22.5 6.4a2.8 2.8 0 0 0-2-2C18.8 4 12 4 12 4s-6.8 0-8.5.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 1 12a29 29 0 0 0 .5 5.6 2.8 2.8 0 0 0 2 2C5.2 20 12 20 12 20s6.8 0 8.5-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 23 12a29 29 0 0 0-.5-5.6z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#menu">Full Menu</a></li>
+          <li><a href="#about">Our Story</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#reserve">Reservations</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Track My Order</a></li>
+          <li><a href="#">Delivery Policy</a></li>
+          <li><a href="#">Refund Policy</a></li>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Privacy</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Visit Us</h4>
+        <div class="addr"><span>📍</span><div>42 Connaught Circus,<br/>Rajiv Chowk, New Delhi — 110001</div></div>
+        <div class="addr"><span>📞</span><div>+91 98765 43210</div></div>
+        <div class="map-box">
+          <iframe src="https://maps.google.com/maps?q=Connaught%20Place%2C%20New%20Delhi&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="SAVORIA Location"></iframe>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© <span id="year"></span> SAVORIA Restaurant. All rights reserved. Made with 🔥 &amp; 🍅</div>
+      <div class="pay-icons">
+        <span>UPI</span><span>VISA</span><span>MASTERCARD</span><span>RUPAY</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+
+<aside class="drawer" id="cartDrawer" aria-label="Shopping cart">
+  <div class="drawer-head">
+    <h3>Your Cart <em id="cartCountTxt">0 items</em></h3>
+    <button class="close-btn" data-close aria-label="Close">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="drawer-body" id="cartBody"></div>
+  <div class="drawer-foot" id="cartFoot" style="display:none">
+    <div class="sum-row"><span>Subtotal</span><span id="subTotal">₹0</span></div>
+    <div class="sum-row"><span>Delivery Fee</span><span id="delFee">₹0</span></div>
+    <div class="sum-row"><span>GST (5%)</span><span id="gst">₹0</span></div>
+    <div class="sum-row total"><span>Total</span><b id="grandTotal">₹0</b></div>
+    <button class="btn btn-gold" id="checkoutBtn">Proceed to Checkout →</button>
+  </div>
+</aside>
+
+<aside class="drawer" id="wishDrawer" aria-label="Wishlist">
+  <div class="drawer-head">
+    <h3>Your Wishlist <em id="wishCountTxt">0 items</em></h3>
+    <button class="close-btn" data-close aria-label="Close">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="drawer-body" id="wishBody"></div>
+</aside>
+
+<div class="modal" id="checkoutModal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3>Checkout</h3>
+      <button class="close-btn" data-close aria-label="Close">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form id="checkoutForm" class="form-grid" onsubmit="processMockPayment(event)">
+        
+        <div class="field full"><label>Full Name</label><input id="ckName" type="text" required placeholder="Your name" /></div>
+        <div class="field"><label>Phone</label><input id="ckPhone" type="tel" required placeholder="10-digit mobile" pattern="[0-9]{10}" /></div>
+        <div class="field"><label>Email</label><input id="ckEmail" type="email" placeholder="you@email.com" /></div>
+        <div class="field full"><label>Delivery Address</label>
+          <textarea id="ckAddress" required placeholder="House / Flat, Street, Landmark, City, PIN"></textarea>
+        </div>
+
+        <div class="field full" style="margin-top:10px;border-top:1px dashed var(--line-2);padding-top:20px">
+          <label style="margin-bottom:10px;display:block">Select Payment Method</label>
+          <div class="pay-tabs">
+            <div class="pay-tab active" onclick="switchPayTab('card')">💳 Card</div>
+            <div class="pay-tab" onclick="switchPayTab('upi')">📱 UPI</div>
+          </div>
+
+          <div class="pay-form active" id="payFormCard">
+            <div class="card-inputs">
+              <div class="field"><label>Card Number</label><input type="text" placeholder="0000 0000 0000 0000" maxlength="19" required id="mockCard"></div>
+              <div class="field"><label>Expiry</label><input type="text" placeholder="MM/YY" maxlength="5" required id="mockExpiry"></div>
+              <div class="field"><label>CVV</label><input type="password" placeholder="123" maxlength="3" required id="mockCvv"></div>
+            </div>
+          </div>
+
+          <div class="pay-form" id="payFormUpi">
+            <div class="field full"><label>UPI ID</label><input type="text" placeholder="yourname@upi" required id="mockUpi"></div>
+          </div>
+        </div>
+
+        <div class="field full" style="margin-top:6px">
+          <div class="sum-row"><span>Subtotal</span><span id="ckSub">₹0</span></div>
+          <div class="sum-row"><span>Delivery + GST</span><span id="ckTax">₹0</span></div>
+          <div class="sum-row total"><span>Amount Payable</span><b id="ckTotal">₹0</b></div>
+        </div>
+
+        <button type="submit" class="btn btn-gold full" id="payBtn">Pay Securely <span id="payAmt"></span></button>
+        <div class="field full" style="text-align:center;font-size:.75rem;color:var(--muted);margin-top:4px">
+          🔒 100% secure mock payments · UPI / Cards
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="successModal">
+  <div class="modal-card">
+    <div class="success-box">
+      <div class="tick">✓</div>
+      <h3>Payment Successful!</h3>
+      <p>Thank you for ordering from SAVORIA.<br/>Your food is being prepared with love 🔥</p>
+      <div class="order-id" id="orderIdTxt">Payment ID: ...</div>
+      <p style="margin-bottom:24px">Estimated delivery: <b style="color:var(--gold-2)">30–40 minutes</b></p>
+      <button class="btn btn-gold" data-close style="width:100%">Continue Browsing</button>
+    </div>
+  </div>
+</div>
+
+<div id="toasts"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
